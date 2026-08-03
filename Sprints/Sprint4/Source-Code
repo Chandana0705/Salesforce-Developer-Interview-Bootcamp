@@ -1,0 +1,73 @@
+public  class ApplicationService {
+
+    public static void submitApplication(
+        Id studentId,
+        Id jobId,
+        Date applicationDate
+    ) {
+
+        // Step 1: Check for duplicate application
+        List<Application__c> existingApplications = [
+            SELECT Id
+            FROM Application__c
+            WHERE Student__c = :studentId
+            AND Company__c = :jobId
+        ];
+
+        if(existingApplications.size() > 0){
+            System.debug('Duplicate Application Found');
+            return;
+        }
+
+        // Step 2: Get Student Details
+        Student__c student = [
+            SELECT StudentCGPA__c,
+                   Backlogs__c,
+                   Branch__c,
+                   GraduationYear__c
+            FROM Student__c
+            WHERE Id = :studentId
+        ];
+
+        // Step 3: Get Company Details
+        Company__c company = [
+            SELECT MinimumCGPA__c,
+                   Allowed_Backlogs__c,
+                   Branch__c,
+                   Graduation_Year_Requirement__c
+            FROM Company__c
+            WHERE Id = :jobId
+        ];
+
+        // Step 4: Validate CGPA
+        if(student.StudentCGPA__c < company.MinimumCGPA__c){
+            System.debug('Application Rejected: CGPA is below the required minimum.');
+            return;
+        }
+
+        // Step 5: Validate Backlogs
+        if(student.Backlogs__c > company.Allowed_Backlogs__c){
+            System.debug('Application Rejected: Too many backlogs.');
+            return;
+        }
+
+        // Step 6: Validate Branch
+        if(student.Branch__c != company.Branch__c){
+            System.debug('Application Rejected: Branch is not eligible.');
+            return;
+        }
+
+        // Step 7: Validate Graduation Year
+        if(student.GraduationYear__c != company.Graduation_Year_Requirement__c){
+            System.debug('Application Rejected: Graduation year does not match.');
+            return;
+        }
+
+        // Step 8: Student is Eligible
+        System.debug('Student is eligible to apply.');
+       
+
+}
+
+    }
+}
