@@ -1,0 +1,13 @@
+public  class ApplicationService {
+
+    public static void submitApplication(
+        Id studentId,
+        Id jobId,
+        Date applicationDate
+    ) {
+
+        System.debug('Application request received successfully.');
+
+    }
+
+}
