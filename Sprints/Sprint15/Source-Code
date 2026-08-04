@@ -1,0 +1,27 @@
+public  class NotificationService {
+
+    public static void sendNotification(
+        List<Application__c> newApplications,
+        Map<Id, Application__c> oldApplications
+    ){
+
+        for(Application__c app : newApplications){
+
+            Application__c oldApp = oldApplications.get(app.Id);
+
+            if(app.Status__c != oldApp.Status__c){
+
+                System.debug('Notification Triggered for Status : ' + app.Status__c);
+
+                // Future Implementation
+                // Send Email
+                // Send SMS
+                // Send Push Notification
+
+            }
+
+        }
+
+    }
+
+}
