@@ -1,0 +1,15 @@
+trigger ApplicationTrigger on Application__c (before insert) {
+
+    for(Application__c app : Trigger.new){
+
+        ApplicationService.submitApplication(
+
+            app.Student__c,
+            app.Company__c,
+            Date.valueOf(app.ApplicationDate__c)
+
+        );
+
+    }
+
+}
