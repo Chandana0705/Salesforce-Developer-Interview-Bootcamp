@@ -1,0 +1,31 @@
+public  class ApplicationService {
+
+    public static void createApplication(
+        Id studentId,
+        Id companyId,
+        Date applicationDate
+    ){
+
+        Application__c application = new Application__c();
+
+        application.Student__c = studentId;
+        application.Company__c = companyId;
+        application.Application_Date__c = applicationDate;
+
+        try{
+
+            insert application;
+
+            System.debug('Application submitted successfully.');
+
+        }
+        catch(Exception e){
+
+            System.debug('Application could not be saved.');
+            System.debug(e.getMessage());
+
+        }
+
+    }
+
+}
