@@ -1,0 +1,18 @@
+public with sharing class ApplicationService {
+
+    public static Student__c getStudent(Id studentId){
+
+        Student__c student = [
+            SELECT StudentCGPA__c,
+                   Branch__c,
+                   Backlogs__c,
+                   GraduationYear__c
+            FROM Student__c
+            WHERE Id = :studentId
+        ];
+
+        return student;
+
+    }
+
+}
