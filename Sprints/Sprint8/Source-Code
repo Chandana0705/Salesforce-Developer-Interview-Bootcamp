@@ -1,0 +1,22 @@
+public  class ApplicationService {
+
+    public static Company__c getCompany(Id companyId){
+
+        Company__c company = [
+
+            SELECT Minimum_CGPA__c,
+                   Maximum_Backlogs__c,
+                   Eligible_Branch__c,
+                   Graduation_Year__c
+
+            FROM Company__c
+
+            WHERE Id = :companyId
+
+        ];
+
+        return company;
+
+    }
+
+}
