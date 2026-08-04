@@ -1,0 +1,39 @@
+public  class ApplicationService {
+
+    public static Boolean checkEligibility(Student__c student, Company__c company){
+
+        if(student.StudentCGPA__c < company.Minimum_CGPA__c){
+
+            System.debug('Student is not eligible. CGPA is below the required minimum.');
+            return false;
+
+        }
+
+        if(student.Backlogs__c > company.Maximum_Backlogs__c){
+
+            System.debug('Student is not eligible. Too many backlogs.');
+            return false;
+
+        }
+
+        if(student.Branch__c != company.Eligible_Branch__c){
+
+            System.debug('Student is not eligible. Branch does not match.');
+            return false;
+
+        }
+
+        if(student.GraduationYear__c != company.Graduation_Year__c){
+
+            System.debug('Student is not eligible. Graduation Year does not match.');
+            return false;
+
+        }
+
+        System.debug('Student is eligible to apply.');
+
+        return true;
+
+    }
+
+}
