@@ -1,0 +1,76 @@
+public with sharing class ApplicationService {
+
+    public static void submitApplication(List<Application__c> applications){
+
+        // Step 1 : Collect Student and Company Ids
+        Set<Id> studentIds = new Set<Id>();
+        Set<Id> companyIds = new Set<Id>();
+
+        for(Application__c app : applications){
+
+            if(app.Student__c != null)
+                studentIds.add(app.Student__c);
+
+            if(app.Company__c != null)
+                companyIds.add(app.Company__c);
+
+        }
+
+        // Step 2 : Query Students Once
+        Map<Id, Student__c> studentMap = new Map<Id, Student__c>([
+
+            SELECT Id,
+                   StudentCGPA__c,
+                   Backlogs__c,
+                   Branch__c,
+                   GraduationYear__c
+            FROM Student__c
+            WHERE Id IN :studentIds
+
+        ]);
+
+        // Step 3 : Query Companies Once
+        Map<Id, Company__c> companyMap = new Map<Id, Company__c>([
+
+            SELECT Id,
+                   MinimumCGPA__c,
+                   Allowed_Backlogs__c,
+                   Branch__c,
+                   Graduation_Year_Requirement__c
+            FROM Company__c
+            WHERE Id IN :companyIds
+
+        ]);
+
+        // Step 4 : Validate Every Application
+        for(Application__c app : applications){
+
+            Student__c student = studentMap.get(app.Student__c);
+            Company__c company = companyMap.get(app.Company__c);
+
+            if(student == null || company == null){
+                app.addError('Student or Company record not found.');
+                continue;
+            }
+
+            if(student.StudentCGPA__c < company.MinimumCGPA__c){
+                app.addError('CGPA is below the required minimum.');
+            }
+
+            if(student.Backlogs__c > company.Allowed_Backlogs__c){
+                app.addError('Too many backlogs.');
+            }
+
+            if(student.Branch__c != company.Branch__c){
+                app.addError('Branch is not eligible.');
+            }
+
+            if(student.GraduationYear__c != company.Graduation_Year_Requirement__c){
+                app.addError('Graduation year does not match.');
+            }
+
+        }
+
+    }
+
+}
