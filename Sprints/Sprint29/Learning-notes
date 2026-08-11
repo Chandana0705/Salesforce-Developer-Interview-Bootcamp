@@ -1,0 +1,24 @@
+# Learning Notes – Sprint 29
+
+## Overview
+
+Sprint 29 focused on maintaining a consistent user experience when the Student Profile is updated and the Eligible Jobs component depends on the changed student information.
+
+## Concepts Learned
+
+- Learned about reactive data in Lightning Web Components.
+- Understood how stale data can appear after a Salesforce record is updated.
+- Learned how Custom Events can be used to notify a parent component about a successful update.
+- Understood the role of a common parent component in coordinating multiple child components.
+- Learned how to use `refreshApex()` to refresh wired Apex data.
+- Understood how dependent components can be refreshed after a record change.
+- Learned that data ownership and refresh behaviour are important parts of application architecture.
+
+## Key Takeaways
+
+- Updating Salesforce data does not always mean that every displayed component automatically refreshes.
+- Custom Events can communicate important changes between components.
+- A common parent can coordinate communication between sibling components.
+- `refreshApex()` can be used to refresh wired Apex data when necessary.
+- Components that depend on changed data should be refreshed appropriately.
+- Sprint 29 helped improve the consistency of the Student Placement Portal.
