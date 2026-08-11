@@ -1,0 +1,51 @@
+# Challenges – Sprint 28
+
+## Challenges Faced
+
+### Challenge 1
+
+Identifying how the current Salesforce User could be connected to the correct `Student__c` record.
+
+### Solution
+
+Created a `Student_User__c` Lookup(User) field on the `Student__c` object and connected the Student record with the Salesforce User.
+
+---
+
+### Challenge 2
+
+There was no existing Student Controller or Student Service to identify the current student's record.
+
+### Solution
+
+Created a `StudentProfileController` Apex class that uses the logged-in Salesforce User to find the related `Student__c` record.
+
+---
+
+### Challenge 3
+
+Understanding how to update the Student record without creating unnecessary custom update logic.
+
+### Solution
+
+Used Lightning Data Service with `lightning-record-edit-form` to display and update the Student record.
+
+---
+
+### Challenge 4
+
+Adding the Student Profile component to the existing application.
+
+### Solution
+
+Added the `StudentProfile` component to the existing Eligible Jobs Lightning App Builder page instead of creating a separate page.
+
+---
+
+### Challenge 5
+
+Testing whether the profile information was actually saved after submitting the form.
+
+### Solution
+
+Deployed the changes and tested the form in Salesforce. After submitting the form, the message **"Profile updated successfully"** was displayed, confirming that the update was successful.
