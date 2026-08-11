@@ -1,0 +1,13 @@
+# Reflection – Sprint 29
+
+Sprint 29 helped me understand the importance of keeping related Lightning Web Components synchronized when Salesforce data changes.
+
+Initially, after updating the Student Profile, the Eligible Jobs component continued to display the old eligibility information. This helped me understand the concept of stale data and why dependent components may need to refresh their data.
+
+I created a `StudentPortal` parent component to coordinate the Student Profile and Eligible Jobs components. The Student Profile dispatches a `profilesaved` Custom Event after a successful update, and the parent uses this event to refresh the Eligible Jobs component.
+
+I also learned how `refreshApex()` can be used to refresh wired Apex data when the underlying Salesforce record changes.
+
+After deploying the changes, I tested the complete flow successfully. When the student profile was updated, the Eligible Jobs component refreshed and displayed the updated eligibility information.
+
+Overall, Sprint 29 improved my understanding of reactive data, Custom Events, component coordination, and refresh behaviour in Lightning Web Components.
