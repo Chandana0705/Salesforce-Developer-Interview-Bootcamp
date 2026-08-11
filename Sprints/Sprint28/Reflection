@@ -1,0 +1,13 @@
+# Reflection – Sprint 28
+
+Sprint 28 helped me understand how to create and manage a Student Profile Form in Salesforce using Lightning Web Components and Lightning Data Service.
+
+I learned how to connect a `Student__c` record with the Salesforce User using a Lookup relationship. This allowed the application to identify the correct student record for the logged-in user.
+
+I also learned how Lightning Data Service can be used to display and update Salesforce records without creating unnecessary custom Apex update logic. Using Lightning base components made the form easier to build and consistent with the Salesforce Lightning experience.
+
+I added the Student Profile component to the existing Eligible Jobs Lightning App Builder page and tested the complete form.
+
+After submitting the updated profile, the system displayed **"Profile updated successfully"**, confirming that the record was updated successfully.
+
+Overall, Sprint 28 improved my understanding of Salesforce record forms, Lightning Data Service, Lookup relationships, and Lightning App Builder.
