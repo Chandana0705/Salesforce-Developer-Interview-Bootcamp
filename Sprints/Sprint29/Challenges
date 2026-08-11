@@ -1,0 +1,51 @@
+# Challenges – Sprint 29
+
+## Challenges Faced
+
+### Challenge 1
+
+After successfully updating the Student Profile, the Eligible Jobs component was still displaying the old eligibility information.
+
+### Solution
+
+Identified that the Eligible Jobs data was stale and needed to be refreshed after the Student record was updated.
+
+---
+
+### Challenge 2
+
+Understanding how the Student Profile component could inform the Eligible Jobs component that the profile had been successfully saved.
+
+### Solution
+
+Added a `profilesaved` Custom Event in the Student Profile component and used a common `StudentPortal` parent component to coordinate the communication.
+
+---
+
+### Challenge 3
+
+Refreshing the wired eligible jobs data after the Student Profile was updated.
+
+### Solution
+
+Stored the wired Apex result and used `refreshApex()` through a public `refreshJobs()` method in the Eligible Jobs component.
+
+---
+
+### Challenge 4
+
+Integrating the new parent component into the existing application without affecting the existing JobCard and Eligible Jobs functionality.
+
+### Solution
+
+Created the `StudentPortal` component as a common parent for `StudentProfile` and `EligibleJobs` and added it to the existing Lightning App Builder page.
+
+---
+
+### Challenge 5
+
+Testing whether the updated student information was reflected in the Eligible Jobs component.
+
+### Solution
+
+Deployed the changes and updated the student's profile information. After saving the profile, the Eligible Jobs component refreshed successfully and displayed the updated eligibility information.
