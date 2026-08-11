@@ -1,0 +1,27 @@
+
+# Learning Notes – Sprint 28
+
+## Overview
+
+Sprint 28 focused on creating a Student Profile Form using Lightning Web Components and Lightning Data Service in the Student Placement Portal.
+
+## Concepts Learned
+
+- Learned how to create a Student Profile LWC.
+- Understood how to identify the current student's Salesforce record.
+- Learned how to create a Lookup relationship between `Student__c` and `User`.
+- Understood how Lightning Data Service can be used to read and update Salesforce records.
+- Learned how to use Lightning base components for form fields.
+- Learned how to handle successful form submission.
+- Learned how to handle form errors.
+- Understood how to add an LWC to an existing Lightning App Builder page.
+- Learned how to update Salesforce records through a Lightning form.
+
+## Key Takeaways
+
+- Lightning Data Service can simplify record access and updates.
+- A Lookup(User) relationship can connect a Student record with a Salesforce User.
+- Lightning base components provide standard Salesforce form behaviour.
+- Success and error messages improve the user experience.
+- A component can be added to an existing Lightning App Builder page without creating a separate page.
+- Sprint 28 added profile management functionality to the Student Placement Portal.
