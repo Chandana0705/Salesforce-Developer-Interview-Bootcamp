@@ -1,5 +1,5 @@
-import { LightningElement, wire } from 'lwc';
-
+import { LightningElement, wire ,api} from 'lwc';
+import { refreshApex } from '@salesforce/apex';
 import getEligibleJobs
     from '@salesforce/apex/EligibleJobsController.getEligibleJobs';
 
@@ -12,12 +12,16 @@ import { ShowToastEvent }
 
 export default class EligibleJobs extends LightningElement {
 
+    // Jobs retrieved from Salesforce
     jobs = [];
 
+    // Job currently selected for viewing
     selectedJob = null;
 
+    // Loading state
     isLoading = true;
 
+    // Error message
     errorMessage = '';
 
     // Job currently being submitted
@@ -27,29 +31,57 @@ export default class EligibleJobs extends LightningElement {
     appliedJobIds = [];
 
 
-    @wire(getEligibleJobs)
-    wiredJobs({ data, error }) {
+    // Retrieve eligible jobs
+  wiredJobsResult;
+
+@wire(getEligibleJobs)
+wiredJobs(result) {
+
+    this.wiredJobsResult = result;
+
+    const { data, error } = result;
+
+    this.isLoading = false;
+
+    if (data) {
+
+        this.jobs = data;
+        this.errorMessage = '';
+
+    } else if (error) {
+
+        this.jobs = [];
+
+        this.errorMessage =
+            'Unable to load eligible jobs.';
+
+        console.error(error);
+
+    }
+}
+@api
+async refreshJobs() {
+
+    this.isLoading = true;
+
+    try {
+
+        await refreshApex(this.wiredJobsResult);
+
+    } catch (error) {
+
+        this.errorMessage =
+            'Unable to refresh eligible jobs.';
+
+        console.error(error);
+
+    } finally {
 
         this.isLoading = false;
 
-        if (data) {
-
-            this.jobs = data;
-            this.errorMessage = '';
-
-        }
-
-        if (error) {
-
-            this.errorMessage =
-                'Unable to load eligible jobs.';
-
-            console.error(error);
-
-        }
     }
-
-
+}
+    // Adds UI-related information to each job
     get displayJobs() {
 
         return this.jobs.map(job => ({
@@ -67,6 +99,7 @@ export default class EligibleJobs extends LightningElement {
     }
 
 
+    // Checks whether jobs are available
     get hasJobs() {
 
         return this.jobs.length > 0;
@@ -74,6 +107,7 @@ export default class EligibleJobs extends LightningElement {
     }
 
 
+    // Checks whether an error exists
     get hasError() {
 
         return this.errorMessage !== '';
@@ -81,20 +115,24 @@ export default class EligibleJobs extends LightningElement {
     }
 
 
-    // Receives View Details event from child
+    // ----------------------------------------------------
+    // CHILD → PARENT : viewdetails
+    // ----------------------------------------------------
+
     handleViewDetails(event) {
 
-        const jobId =
-            event.detail.jobId;
+        // Receive only the information sent by JobCard
+        const jobId = event.detail.jobId;
 
+        // Parent decides what to do with that information
         this.selectedJob =
             this.jobs.find(
                 job => job.Id === jobId
             );
-
     }
 
 
+    // Close the selected job details
     handleCloseDetails() {
 
         this.selectedJob = null;
@@ -102,30 +140,36 @@ export default class EligibleJobs extends LightningElement {
     }
 
 
-    // Receives Apply event from child
+    // ----------------------------------------------------
+    // CHILD → PARENT : apply
+    // ----------------------------------------------------
+
     async handleApply(event) {
 
-        const jobId =
-            event.detail.jobId;
+        // Receive jobId from JobCard
+        const jobId = event.detail.jobId;
 
+        // Parent controls the submission state
         this.applyingJobId = jobId;
 
 
         try {
 
+            // Parent performs the actual business operation
             const applicationId =
                 await submitApplication({
                     jobId: jobId
                 });
 
 
-            // Mark job as successfully applied
+            // Mark this job as successfully applied
             this.appliedJobIds = [
                 ...this.appliedJobIds,
                 jobId
             ];
 
 
+            // Inform the user that the operation succeeded
             this.dispatchEvent(
                 new ShowToastEvent({
                     title: 'Success',
@@ -159,6 +203,7 @@ export default class EligibleJobs extends LightningElement {
             }
 
 
+            // Inform the user that the operation failed
             this.dispatchEvent(
                 new ShowToastEvent({
                     title: 'Application Failed',
@@ -173,6 +218,7 @@ export default class EligibleJobs extends LightningElement {
 
         } finally {
 
+            // Stop the submitting state
             this.applyingJobId = null;
 
         }

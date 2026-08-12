@@ -1,0 +1,118 @@
+<template>
+
+    <lightning-card
+        title="Student Profile"
+        icon-name="standard:contact">
+
+        <div class="slds-p-around_medium">
+
+            <!-- Loading -->
+            <template if:true={isLoading}>
+
+                <lightning-spinner
+                    alternative-text="Loading student profile...">
+                </lightning-spinner>
+
+            </template>
+
+
+            <!-- Error -->
+            <template if:true={errorMessage}>
+
+                <div class="slds-text-color_error slds-m-bottom_medium">
+                    {errorMessage}
+                </div>
+
+            </template>
+
+
+            <!-- Profile Form -->
+            <template if:true={studentId}>
+
+                <lightning-record-edit-form
+                    record-id={studentId}
+                    object-api-name="Student__c"
+                    onsuccess={handleSuccess}
+                    onerror={handleError}>
+
+                    <lightning-messages>
+                    </lightning-messages>
+
+
+                    <!-- Student Name -->
+                    <lightning-input-field
+                        field-name="Name">
+                    </lightning-input-field>
+
+
+                    <!-- Phone -->
+                    <lightning-input-field
+                        field-name="Phone__c"
+                        required>
+                    </lightning-input-field>
+
+
+                    <!-- Email -->
+                    <lightning-input-field
+                        field-name="Email__c"
+                        required>
+                    </lightning-input-field>
+
+
+                    <!-- Branch -->
+                    <lightning-input-field
+                        field-name="Branch__c"
+                        required>
+                    </lightning-input-field>
+
+
+                    <!-- CGPA -->
+                    <lightning-input-field
+                        field-name="StudentCGPA__c"
+                        required>
+                    </lightning-input-field>
+
+
+                    <!-- Skills -->
+                    <lightning-input-field
+                        field-name="Skills__c">
+                    </lightning-input-field>
+
+
+                    <!-- Preferred Location -->
+                    <lightning-input-field
+                        field-name="Preferred_Location__c">
+                    </lightning-input-field>
+
+
+                    <!-- Graduation Year -->
+                    <lightning-input-field
+                        field-name="GraduationYear__c">
+                    </lightning-input-field>
+
+
+                    <!-- Backlogs -->
+                    <lightning-input-field
+                        field-name="Backlogs__c">
+                    </lightning-input-field>
+
+
+                    <div class="slds-m-top_medium">
+
+                        <lightning-button
+                            type="submit"
+                            label="Save Profile"
+                            variant="brand">
+                        </lightning-button>
+
+                    </div>
+
+                </lightning-record-edit-form>
+
+            </template>
+
+        </div>
+
+    </lightning-card>
+
+</template>

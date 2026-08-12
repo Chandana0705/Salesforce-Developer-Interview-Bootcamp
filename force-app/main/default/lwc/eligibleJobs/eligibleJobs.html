@@ -6,7 +6,6 @@
 
         <div class="slds-p-around_medium">
 
-
             <!-- Loading -->
             <template if:true={isLoading}>
 
@@ -30,37 +29,45 @@
 
 
             <!-- Jobs -->
-            <template if:false={isLoading}>
+            <template if:true={hasJobs}>
 
-                <template if:true={hasJobs}>
+                <template
+                    for:each={displayJobs}
+                    for:item="job">
 
-                    <template
-                        for:each={displayJobs}
-                        for:item="job">
-
-                        <c-job-card
-                            key={job.Id}
-                            job={job}
-                            is-applied={job.isApplied}
-                            is-submitting={job.isSubmitting}
-                            onapply={handleApply}
-                            onviewdetails={handleViewDetails}>
-                        </c-job-card>
-
-                    </template>
+                    <c-job-card
+                        key={job.Id}
+                        job={job}
+                        is-applied={job.isApplied}
+                        is-submitting={job.isSubmitting}
+                        onapply={handleApply}
+                        onviewdetails={handleViewDetails}>
+                    </c-job-card>
 
                 </template>
 
+            </template>
 
-                <!-- Empty -->
-                <template if:false={hasJobs}>
 
-                    <template if:false={hasError}>
+            <!-- Empty -->
+            <template if:false={hasJobs}>
 
-                        <p>
-                            No eligible jobs are currently available.
-                        </p>
+                <template if:false={hasError}>
 
+                    <template if:false={isLoading}>
+
+             <template if:false={hasJobs}>
+
+    <template if:false={hasError}>
+
+        <c-empty-state
+            title="No Eligible Jobs"
+            message="No eligible opportunities are available right now. Check again when new companies are added.">
+        </c-empty-state>
+
+    </template>
+
+</template>
                     </template>
 
                 </template>
@@ -103,7 +110,6 @@
                     <strong>Deadline:</strong>
                     {selectedJob.LastDateToApply__c}
                 </p>
-
 
                 <lightning-button
                     label="Close"
